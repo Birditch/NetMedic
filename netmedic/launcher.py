@@ -30,8 +30,7 @@ def _first_run(cfg: dict) -> dict:
 def _menu_loop(cfg: dict) -> None:
     items = menu.MENU_ITEMS
     while True:
-        console.clear()
-        menu.render(cfg)
+        menu.render(cfg)  # internally clears the screen first
         try:
             choice = IntPrompt.ask(
                 f"\n[bold]{t('msg.pick_action')}[/bold]",
