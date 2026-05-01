@@ -1,0 +1,47 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual envs
+venv/
+.venv/
+env/
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Project-specific runtime data
+backups/
+logs/
+.netmedic/
+
+# Tooling / agent state
+.omc/
+.claude/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Environment-specific config
+*.local
+config.local.json

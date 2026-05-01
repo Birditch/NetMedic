@@ -1,0 +1,7 @@
+dnspython>=2.4
+rich>=13.7
+typer>=0.9
+
+# DoH (DNS-over-HTTPS) backend for dns.query.https — required by force-doh
+httpx>=0.25
+h2>=4.0

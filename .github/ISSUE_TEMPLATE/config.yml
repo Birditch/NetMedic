@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/Birditch/netmedic/discussions
+    about: Questions, ideas, "is X possible?" — please use Discussions instead of an issue.
+  - name: 📖 Documentation
+    url: https://github.com/Birditch/netmedic#readme
+    about: Most usage questions are answered in the README.

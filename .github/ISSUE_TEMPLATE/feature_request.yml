@@ -1,0 +1,52 @@
+name: ✨ Feature request
+description: Suggest a new capability or improvement.
+title: "[Feat] "
+labels: ["enhancement", "needs-triage"]
+
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: |
+        Describe the user-facing problem in one or two sentences. We
+        prioritize features that solve a real pain, not "nice to haves".
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How would you like NetMedic to behave?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you've tried, related tools, etc.
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Likely scope
+      options:
+        - Single command flag
+        - New subcommand
+        - Internal refactor
+        - Cross-cutting (touches detect/, fix/, cli/, etc.)
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: alignment
+    attributes:
+      label: Alignment
+      options:
+        - label: This feature does **not** require shipping censored / filtered DNS providers.
+          required: true
+        - label: I'd be willing to help with the implementation.
+          required: false

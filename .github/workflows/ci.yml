@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lint-and-compile:
+    name: Compile + lint (${{ matrix.os }} / py${{ matrix.python-version }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        python-version: ['3.10', '3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install httpx h2
+
+      - name: Compile-check all sources
+        run: python -m compileall -q netmedic
+
+      - name: Validate locale JSONs
+        shell: python
+        run: |
+          import json, sys
+          from pathlib import Path
+          required = {
+              "app.tagline", "cmd.check.help", "cmd.force-doh.help",
+              "msg.need_admin", "msg.choose_primary",
+              "label.adapter", "label.col.provider",
+          }
+          missing = {}
+          for p in Path("locales").glob("*.json"):
+              data = json.loads(p.read_text(encoding="utf-8"))
+              gone = required - set(data.keys())
+              if gone:
+                  missing[p.name] = sorted(gone)
+          if missing:
+              for f, keys in missing.items():
+                  print(f"::error file={f}::Missing keys: {keys}")
+              sys.exit(1)
+          print("All locale files contain the required keys.")
+
+      - name: Smoke-test CLI help
+        run: python run.py --help
+
+  pyflakes:
+    name: pyflakes (Python 3.12)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip pyflakes
+      - run: pyflakes netmedic

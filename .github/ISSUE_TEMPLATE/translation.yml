@@ -1,0 +1,46 @@
+name: 🌏 Translation request / fix
+description: Add a new language, or fix a wrong translation in an existing locale.
+title: "[i18n] "
+labels: ["i18n", "good-first-issue"]
+
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of i18n issue?
+      options:
+        - Add a new language
+        - Fix a wrong / unnatural translation
+        - Missing translation key
+    validations:
+      required: true
+
+  - type: input
+    id: language
+    attributes:
+      label: Language (IETF code)
+      description: e.g. `de`, `fr`, `pt-BR`, `vi`.
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: |
+        For a new language, link your draft / fork.
+        For a fix, paste the key + current translation + suggested replacement.
+      placeholder: |
+        Key: msg.hijack_detected
+        Current (ja): "ほぼ全ての海外 DNS が…"
+        Suggested:    "ほぼ全ての海外 DNS が応答…"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: native
+    attributes:
+      label: Are you a native / fluent speaker?
+      options:
+        - label: I am a native speaker of this language.
+        - label: I am fluent but not native (we may ask for a second review).
