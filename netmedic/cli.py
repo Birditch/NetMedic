@@ -56,6 +56,7 @@ from .reporter import (
     render_doh_bench,
     render_mtu,
     render_nrpt_rules,
+    render_nrpt_summary,
     render_pollution,
 )
 from .utils import is_admin
@@ -570,11 +571,24 @@ def flush():
 
 
 @app.command()
-def status():
-    """查看当前活动网卡 / NRPT 规则."""
+def status(
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v",
+        help="逐条列出每个 NRPT 命名空间, 而不是按策略分组的摘要.",
+    ),
+):
+    """查看当前活动网卡 / NRPT 规则.
+
+    默认按策略分组显示 (DNS 目标 + 标签 + 命名空间数 + 样例), 并附上
+    含义说明; 加 ``--verbose`` 才输出每条命名空间的完整列表.
+    """
     render_adapter(get_active_adapter())
     console.print()
-    render_nrpt_rules(list_rules())
+    rules = list_rules()
+    if verbose:
+        render_nrpt_rules(rules)
+    else:
+        render_nrpt_summary(rules)
 
 
 def main() -> None:

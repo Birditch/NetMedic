@@ -157,18 +157,81 @@ def render_doh_bench(results: list[DohResult]) -> None:
     console.print(t)
 
 
-def render_nrpt_rules(rules: list[dict]) -> None:
+def _ns_list(rule: dict) -> list[str]:
+    ns = rule.get("Namespace")
+    if isinstance(ns, list):
+        return [str(x) for x in ns]
+    if ns:
+        return [str(ns)]
+    return []
+
+
+def _srv_tuple(rule: dict) -> tuple[str, ...]:
+    srv = rule.get("NameServers")
+    if isinstance(srv, list):
+        return tuple(str(x) for x in srv)
+    if srv:
+        return (str(srv),)
+    return ()
+
+
+def render_nrpt_summary(rules: list[dict]) -> None:
+    """Render a *meaningful* summary instead of dumping every rule.
+
+    Groups rules by their (NameServers, Comment) pair so the user can
+    immediately see what each policy block is doing instead of staring
+    at 90 identical-looking rows.
+    """
     if not rules:
         console.print("[dim]当前没有 NRPT 分流规则.[/dim]")
         return
-    t = Table(title="NRPT 规则", box=box.SIMPLE_HEAVY)
+
+    from collections import defaultdict
+    groups: dict[tuple[tuple[str, ...], str], list[str]] = defaultdict(list)
+    for r in rules:
+        key = (_srv_tuple(r), str(r.get("Comment") or ""))
+        groups[key].extend(_ns_list(r))
+
+    tbl = Table(
+        title=f"NRPT 分流规则 — 共 {len(rules)} 条 / {len(groups)} 组策略",
+        box=box.SIMPLE_HEAVY,
+    )
+    tbl.add_column("DNS 目标", overflow="fold")
+    tbl.add_column("命名空间数", justify="right")
+    tbl.add_column("策略标签", style="dim")
+    tbl.add_column("命名空间样例", overflow="fold")
+    for (servers, comment), namespaces in groups.items():
+        sample_n = 4
+        sample = ", ".join(sorted(namespaces)[:sample_n])
+        if len(namespaces) > sample_n:
+            sample += f", ... +{len(namespaces) - sample_n}"
+        tbl.add_row(
+            ", ".join(servers) or "-",
+            str(len(namespaces)),
+            comment or "-",
+            sample,
+        )
+    console.print(tbl)
+    console.print(
+        "[dim]含义: 当系统解析这些命名空间下的域名时, 会跳过网卡默认 DNS, "
+        "直接走 NRPT 指定的 DNS。常见用途是「国内域名走国内 DNS, 境外域名走境外 DoH」"
+        "的智能分流, 避免国内服务被解析成境外 IP 而绕路。\n"
+        "  • 用 [cyan]python run.py status --verbose[/cyan] 查看每条命名空间.\n"
+        "  • 用 [cyan]python run.py restore[/cyan] 清掉本工具写入的 NRPT.[/dim]"
+    )
+
+
+def render_nrpt_rules(rules: list[dict]) -> None:
+    """Detailed (verbose) listing — one row per namespace."""
+    if not rules:
+        console.print("[dim]当前没有 NRPT 分流规则.[/dim]")
+        return
+    t = Table(title=f"NRPT 规则 — 详细 ({len(rules)} 条)", box=box.SIMPLE_HEAVY)
     t.add_column("命名空间", overflow="fold")
     t.add_column("DNS 服务器", overflow="fold")
     t.add_column("Comment")
     for r in rules:
-        ns = r.get("Namespace")
-        ns_text = ", ".join(ns) if isinstance(ns, list) else str(ns) if ns else "-"
-        srv = r.get("NameServers")
-        srv_text = ", ".join(srv) if isinstance(srv, list) else str(srv) if srv else "-"
+        ns_text = ", ".join(_ns_list(r)) or "-"
+        srv_text = ", ".join(_srv_tuple(r)) or "-"
         t.add_row(ns_text, srv_text, str(r.get("Comment") or ""))
     console.print(t)
