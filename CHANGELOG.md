@@ -5,6 +5,51 @@ All notable changes to NetMedic will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1b1] — 2026-05-01 — preview / beta
+
+Preview release. **First step toward cross-platform support and pip
+distribution**; do not use on production-critical machines yet.
+
+### Added
+
+- **`pyproject.toml`** with two console-script entry points: ``netmedic``
+  and ``nm`` so the tool can be installed via ``pip install netmedic``
+  and invoked from anywhere on PATH.
+- **Cross-platform user-data layout**: language / country / scope /
+  IPv6 preference and DNS backups now live in ``$NETMEDIC_HOME``
+  (default ``~/.netmedic``). Survives ``pip install -U`` upgrades and
+  works after ``pip install`` into a non-writable site-packages.
+- **Bundled locale files**: ``locales/`` moved to ``netmedic/locales/``
+  so the JSONs ship inside the wheel.
+- **POSIX privilege check**: ``is_admin()`` now also checks
+  ``geteuid() == 0`` on macOS / Linux so the helper works on every
+  supported platform once the backends land.
+- **``nm`` short alias** for the launcher: ``nm`` and ``netmedic`` are
+  exact synonyms.
+
+### Changed
+
+- **Banner shows only the active locale's tagline** instead of all six.
+  ``app.tagline`` is read from the currently-loaded locale JSON.
+- **Banner version label** now uses the human-friendly
+  ``__display_version__`` (``1.0.1 preview beta1``) while the
+  PEP 440 ``__version__`` (``1.0.1b1``) is what wheels / PyPI see.
+
+### Fixed
+
+- **NRPT rule listing** previously serialized ``System.Net.IPAddress``
+  objects as raw CIM dicts (``{"Address": 84215263, ...}``) which was
+  unreadable. Both ``fix.nrpt.list_rules`` and ``fix.backup.backup_dns``
+  now project ``IPAddressToString`` so the JSON we emit and store is
+  plain dotted-quad strings.
+
+### Platform status
+
+Still Windows-only at runtime; macOS / Linux backends remain stubs
+(see ROADMAP.md). The package itself imports cleanly on every OS
+so contributors can develop the cross-platform bits without a
+Windows VM.
+
 ## [1.0.0] — 2026-05-01
 
 First public release.

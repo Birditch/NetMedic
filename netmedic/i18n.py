@@ -15,7 +15,7 @@ import locale as _stdlocale
 import os
 from pathlib import Path
 
-LOCALES_DIR = Path(__file__).resolve().parent.parent / "locales"
+LOCALES_DIR = Path(__file__).resolve().parent / "locales"
 
 SUPPORTED: list[str] = ["en", "zh-CN", "zh-TW", "ja", "ko", "ru"]
 DEFAULT_LANG = "en"

@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netmedic"
+version = "1.0.1b1"
+description = "Cross-platform DNS / network connectivity doctor for Windows, macOS and Linux."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Birditch"}]
+maintainers = [{name = "Birditch"}]
+keywords = [
+    "dns",
+    "doh",
+    "dns-over-https",
+    "split-dns",
+    "nrpt",
+    "diagnostic",
+    "windows",
+    "macos",
+    "linux",
+    "networking",
+    "cli",
+    "rich",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Operating System :: Microsoft :: Windows :: Windows 11",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Networking",
+    "Topic :: System :: Networking :: Monitoring",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "dnspython>=2.8",
+    "rich>=14.0",
+    "typer>=0.15",
+    "httpx>=0.28",
+    "h2>=4.3",
+]
+
+[project.urls]
+Homepage      = "https://github.com/Birditch/NetMedic"
+Repository    = "https://github.com/Birditch/NetMedic"
+Documentation = "https://github.com/Birditch/NetMedic#readme"
+Changelog     = "https://github.com/Birditch/NetMedic/blob/main/CHANGELOG.md"
+Issues        = "https://github.com/Birditch/NetMedic/issues"
+Sponsor       = "https://pierlink.net"
+
+[project.scripts]
+# Two equivalent entry points so the user can pick whichever fits muscle memory.
+netmedic = "netmedic.cli:main"
+nm       = "netmedic.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pyflakes",
+    "build",
+    "twine",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["netmedic*"]
+exclude = ["tests*", "backups*", "logs*", ".github*"]
+
+[tool.setuptools.package-data]
+netmedic = [
+    "locales/*.json",
+    "py.typed",
+]

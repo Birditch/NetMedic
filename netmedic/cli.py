@@ -578,6 +578,15 @@ def status():
 
 
 def main() -> None:
+    """Console-script entry point for ``netmedic`` and ``nm``.
+
+    Drops into the interactive Rich launcher when no arguments are given;
+    otherwise hands off to the typer subcommand parser.
+    """
+    if len(sys.argv) <= 1:
+        from .launcher import run
+        run([])
+        return
     app()
 
 

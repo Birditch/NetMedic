@@ -60,7 +60,7 @@ jobs:
               "label.adapter", "label.col.provider",
           }
           missing = {}
-          for p in Path("locales").glob("*.json"):
+          for p in Path("netmedic/locales").glob("*.json"):
               data = json.loads(p.read_text(encoding="utf-8"))
               gone = required - set(data.keys())
               if gone:

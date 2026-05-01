@@ -19,10 +19,21 @@ NRPT_COMMENT_TAG = "[NetMedic]"
 
 
 def list_rules() -> list[dict]:
+    # ``Get-DnsClientNrptRule`` returns ``NameServers`` as
+    # ``System.Net.IPAddress`` objects. ``ConvertTo-Json`` serializes
+    # those as the underlying CIM dict (``{Address: 84215263, ...}``)
+    # which is unreadable. Explicitly project to the dotted-quad string
+    # via ``IPAddressToString`` so the JSON we round-trip is plain text.
     rc, out, _ = run_powershell(
-        "Get-DnsClientNrptRule | "
-        "Select-Object Name, Namespace, NameServers, Comment | "
-        "ConvertTo-Json -Compress -Depth 4"
+        "Get-DnsClientNrptRule | ForEach-Object { "
+        "[PSCustomObject]@{ "
+        "Name = $_.Name; "
+        "Namespace = @($_.Namespace); "
+        "NameServers = @($_.NameServers | ForEach-Object { "
+        "    if ($_ -is [string]) { $_ } else { $_.IPAddressToString } "
+        "}); "
+        "Comment = $_.Comment "
+        "} } | ConvertTo-Json -Compress -Depth 4"
     )
     if rc != 0 or not out.strip():
         return []

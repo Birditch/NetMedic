@@ -24,9 +24,15 @@ def backup_dns(ifindex: int) -> Path:
     dns_json = out.strip()
 
     rc2, nrpt_out, _ = run_powershell(
-        "Get-DnsClientNrptRule | "
-        "Select-Object Name, Namespace, NameServers, Comment | "
-        "ConvertTo-Json -Compress -Depth 4"
+        "Get-DnsClientNrptRule | ForEach-Object { "
+        "[PSCustomObject]@{ "
+        "Name = $_.Name; "
+        "Namespace = @($_.Namespace); "
+        "NameServers = @($_.NameServers | ForEach-Object { "
+        "    if ($_ -is [string]) { $_ } else { $_.IPAddressToString } "
+        "}); "
+        "Comment = $_.Comment "
+        "} } | ConvertTo-Json -Compress -Depth 4"
     )
 
     payload = {

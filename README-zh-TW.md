@@ -133,10 +133,10 @@ python run.py
 
 ## 多語言
 
-語言檔在 [`locales/`](locales/) 下：
-[`en`](locales/en.json)、[`zh-CN`](locales/zh-CN.json)、
-[`zh-TW`](locales/zh-TW.json)、[`ja`](locales/ja.json)、
-[`ko`](locales/ko.json)、[`ru`](locales/ru.json)。
+語言檔在 [`netmedic/locales/`](netmedic/locales/) 下：
+[`en`](netmedic/locales/en.json)、[`zh-CN`](netmedic/locales/zh-CN.json)、
+[`zh-TW`](netmedic/locales/zh-TW.json)、[`ja`](netmedic/locales/ja.json)、
+[`ko`](netmedic/locales/ko.json)、[`ru`](netmedic/locales/ru.json)。
 
 優先順序：`--lang` 命令列參數 → 已儲存的設定 → `NETMEDIC_LANG` 環境變數 → 系統語言 → `en` 兜底。
 歡迎 PR 新語種翻譯，參考 [CONTRIBUTING](CONTRIBUTING.md#adding-a-new-language)。

@@ -168,10 +168,10 @@ change either at any time, with Enter accepting the current value.
 
 ## Internationalization
 
-Locale files in [`locales/`](locales/) — one JSON per language:
-[`en`](locales/en.json), [`zh-CN`](locales/zh-CN.json),
-[`zh-TW`](locales/zh-TW.json), [`ja`](locales/ja.json),
-[`ko`](locales/ko.json), [`ru`](locales/ru.json).
+Locale files in [`netmedic/locales/`](netmedic/locales/) — one JSON per language:
+[`en`](netmedic/locales/en.json), [`zh-CN`](netmedic/locales/zh-CN.json),
+[`zh-TW`](netmedic/locales/zh-TW.json), [`ja`](netmedic/locales/ja.json),
+[`ko`](netmedic/locales/ko.json), [`ru`](netmedic/locales/ru.json).
 
 Active language is picked from: `--lang` flag → saved config →
 `NETMEDIC_LANG` env → OS locale → `en` fallback. PRs adding more

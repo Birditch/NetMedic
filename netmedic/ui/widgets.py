@@ -36,7 +36,7 @@ from rich.panel import Panel
 from rich.rule import Rule
 from rich.text import Text
 
-from .. import __version__
+from .. import __display_version__
 from ..i18n import LOCALES_DIR, t
 
 console = Console()
@@ -65,15 +65,14 @@ def admin_badge(required: bool) -> str:
 
 # --- page chrome --------------------------------------------------------
 
-_TAGLINE = "Network Doctor · 网络医生 · ネットワークドクター · 네트워크 닥터 · Сетевой Доктор"
-
-
 def banner() -> Panel:
-    """Top-of-screen identity banner with version + multilingual tagline."""
+    """Top-of-screen identity banner with version + the *active* tagline."""
     title = Text()
     title.append("NetMedic ", style="bold cyan")
-    title.append(f"v{__version__}", style="bold yellow")
-    sub = Text(_TAGLINE, style="dim")
+    title.append(f"v{__display_version__}", style="bold yellow")
+    # Render the tagline in the user's selected language only — the i18n
+    # loader returns the right value for whichever locale is active.
+    sub = Text(t("app.tagline"), style="dim italic")
     return Panel(
         Align.center(Group(title, sub)),
         border_style="cyan",
