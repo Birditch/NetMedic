@@ -32,6 +32,18 @@
   "msg.done": "完了",
   "msg.hijack_detected": "ほぼ全ての海外 DNS が 5ms 未満で応答 — 物理的にあり得ません。あなたのネットワーク (おそらくソフトルータ) が UDP 53 番ポートで DNS を傍受/キャッシュしています。",
   "msg.verify_steps": "確認:\n  1. ブラウザで https://1.1.1.1/help を開き \"Using DNS over HTTPS (DoH): Yes\" を確認\n  2. QQ クイックログイン / Google を再テスト\n\n復元: python run.py restore",
+  "msg.pick_country": "国・地域を選択",
+  "msg.pick_action": "番号を入力してください",
+  "msg.run_now": "今すぐ実行しますか? (y/n)",
+  "msg.press_enter": "Enter キーでメニューに戻る…",
+  "msg.hosts_analysed": "hosts 解析済み: {total} 行 / 有効 {active} 件 / 問題 {issues} 件",
+  "msg.hosts_clean": "hosts は問題なし、修復不要です。",
+  "msg.hosts_fix_confirm": "上記の問題を自動修復しますか?",
+  "msg.hosts_repaired": "hosts 修復完了: 保持 {kept} 件 / 削除 {removed} 件",
+  "msg.outage_all_ok": "5 層全てに到達可能 — 障害なし。",
+  "msg.hijack_yes": "ローカルネットワークがポート 53 で DNS を傍受しています。",
+  "msg.hijack_no": "ポート 53 の傍受は検出されません。DNS 経路は正常に見えます。",
+  "msg.hijack_unknown": "海外 DNS に到達できないため判定不可。",
 
   "label.adapter": "アクティブアダプタ",
   "label.dns_current": "現在の DNS",
@@ -55,5 +67,75 @@
   "label.verdict.clean": "クリーン",
   "label.verdict.polluted": "汚染",
   "label.verdict.suspicious": "疑わしい",
-  "label.verdict.timeout": "タイムアウト"
+  "label.verdict.timeout": "タイムアウト",
+  "label.country_title": "国・地域を選択",
+  "label.country_name": "国・地域",
+  "label.country": "国",
+  "label.lang": "言語",
+  "label.feature": "機能",
+  "label.admin": "権限",
+  "label.summary": "概要",
+  "label.fix_hint": "推奨対応",
+  "label.step": "ステップ",
+  "label.result": "結果",
+  "label.detail": "詳細",
+  "label.outage_chain": "障害診断チェーン",
+  "label.need_admin": "管理者必要",
+  "label.no_admin": "ユーザー",
+
+  "menu.lang.name": "言語の切替",
+  "menu.lang.short": "UI 言語をいつでも変更可能。",
+  "menu.lang.long": "言語ピッカーを開きます。選択は .netmedic_config.json に保存され、次回起動時に再利用されます。",
+
+  "menu.country.name": "国・地域の切替",
+  "menu.country.short": "あなたの所在地を NetMedic に伝え、最適な DNS プールを優先します。",
+  "menu.country.long": "国または地域を選択。NetMedic は現地で実績の良い DNS プロバイダを優先順位付けします。AUTO は IP から自動判定します。",
+
+  "menu.check.name": "ネットワーク総合診断",
+  "menu.check.short": "アダプタ + ping + DNS 速度 + 汚染 + MTU を一括計測。",
+  "menu.check.long": "アクティブアダプタを点検し、国内・海外両方への ping/損失を測り、公共 DNS 速度をベンチマークし、GFW 毒 IP テーブルと突き合わせ、MTU を報告します。読み取り専用、システム変更なし。",
+
+  "menu.recommend.name": "最適 DNS の推奨",
+  "menu.recommend.short": "速度+汚染テストの結果を踏まえて推奨 (システム変更なし)。",
+  "menu.recommend.long": "ベンチと汚染検出を実行し、どの中国 DNS、どの海外 DNS、どの命名空間をスプリットすべきかを推奨します。ポート 53 の乗っ取りを検出した場合は、誤った最適候補を返さず明示的に警告します。",
+
+  "menu.apply.name": "適用 (UDP/53)",
+  "menu.apply.short": "推奨 DNS + NRPT ルールをアダプタに書き込み。",
+  "menu.apply.long": "アダプタ DNS を最速のクリーン海外 DNS に設定し、NRPT ルールで中国系命名空間を最速の中国 DNS にルーティングします。元の状態は backups/latest.json にバックアップされ、restore で即座に戻せます。",
+
+  "menu.restore.name": "バックアップから復元",
+  "menu.restore.short": "アダプタ DNS + NRPT ルールを直前の状態に戻す。",
+  "menu.restore.long": "backups/latest.json を読み、元の DNS を復元します。NetMedic が追加した NRPT ルール ([NetMedic] タグで識別) のみを削除し、他のポリシーには触れません。",
+
+  "menu.force_doh.name": "DoH 強制 (ルータ乗っ取り回避)",
+  "menu.force_doh.short": "暗号化 DNS (HTTPS:443) に切替 — ソフトルータでは捕捉不可。",
+  "menu.force_doh.long": "全 DoH プロバイダに実 HTTPS クエリを送って計測 + 汚染検出、TOP 5 から選択。選んだものがプライマリ DoH になり、中国系命名空間は NRPT で中国 DoH に固定されます。Windows 11 必須 (ネイティブ DoH 機能を使用)。",
+
+  "menu.bench_doh.name": "DoH ベンチマーク",
+  "menu.bench_doh.short": "DoH の遅延 + クリーン度のみ計測、システム変更なし。",
+  "menu.bench_doh.long": "対応プロバイダ全てに実 HTTPS DoH クエリを送り、遅延と成功率を計測しながら汚染を検査します。apply の前に確認するのに便利。",
+
+  "menu.flush.name": "DNS キャッシュ破棄",
+  "menu.flush.short": "`ipconfig /flushdns` 相当。",
+  "menu.flush.long": "Windows DNS リゾルバのキャッシュをクリア。hosts 編集、DNS 切替、古いレコードのデバッグ後に。",
+
+  "menu.status.name": "現在の状態を表示",
+  "menu.status.short": "現在のアダプタ + NRPT ルールを表示。",
+  "menu.status.long": "アクティブアダプタ (名前、IP、ゲートウェイ、現在の DNS) と全 NRPT 名前解決ポリシー (NetMedic 所有のものを含む) の読み取り専用サマリ。",
+
+  "menu.hosts_fix.name": "hosts 修復",
+  "menu.hosts_fix.short": "重複・ブラックホール・不正行を検出して整理。",
+  "menu.hosts_fix.long": "C:\\Windows\\System32\\drivers\\etc\\hosts を解析: 重複ホスト名、0.0.0.0/127.0.0.1 を指すブラックホール (広告ブロッカーの残骸が典型)、不正な行を検出。問題行を整理してファイルを書き換え可能 (他ツールのマーカーブロック内には触れません)。",
+
+  "menu.outage.name": "ネットワーク障害診断",
+  "menu.outage.short": "Loopback → ゲートウェイ → インターネット → DNS → HTTPS の 5 層プローブ。",
+  "menu.outage.long": "5 層を順に検査し、最初に失敗した層で停止して対応策を提示。loopback 障害 / ゲートウェイ障害 / DNS 障害 / HTTPS 障害を区別 — 闇雲に設定をいじらずに済みます。",
+
+  "menu.hijack.name": "ルータ DNS 乗っ取り検出",
+  "menu.hijack.short": "ゲートウェイがポート 53 を傍受/偽装しているか判定。",
+  "menu.hijack.long": "信頼できる海外公共 DNS に UDP 探査を送り計時。ほぼ全てが 5ms 未満で応答するなら、中国側のどんな経路でも物理的にあり得ない — ルータがポート 53 を傍受し上流のふりをしています。Force-DoH での解決を提案。",
+
+  "menu.exit.name": "終了",
+  "menu.exit.short": "NetMedic を終了。",
+  "menu.exit.long": "ランチャーを閉じます。設定はすでに保存済みです。"
 }

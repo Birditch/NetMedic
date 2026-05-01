@@ -32,6 +32,18 @@
   "msg.done": "Done",
   "msg.hijack_detected": "Almost every overseas DNS responded < 5ms — physically impossible. Your network (most likely a soft router) is intercepting/caching DNS at UDP port 53.",
   "msg.verify_steps": "Verify:\n  1. Open https://1.1.1.1/help — should say \"Using DNS over HTTPS (DoH): Yes\"\n  2. Re-test QQ login / Google\n\nRestore: python run.py restore",
+  "msg.pick_country": "Pick a country / region",
+  "msg.pick_action": "Pick an action by number",
+  "msg.run_now": "Run this feature now? (y/n)",
+  "msg.press_enter": "Press Enter to return to the menu…",
+  "msg.hosts_analysed": "hosts analysed: {total} lines, {active} active entries, {issues} issue(s)",
+  "msg.hosts_clean": "hosts file looks clean — no repair needed.",
+  "msg.hosts_fix_confirm": "Auto-repair the issues above?",
+  "msg.hosts_repaired": "hosts repaired: {kept} entries kept, {removed} removed",
+  "msg.outage_all_ok": "All five layers reachable — no outage detected.",
+  "msg.hijack_yes": "Local network IS intercepting DNS at port 53.",
+  "msg.hijack_no": "No port-53 hijack detected — DNS path looks legitimate.",
+  "msg.hijack_unknown": "Could not reach any overseas DNS — can't tell yet.",
 
   "label.adapter": "Active Adapter",
   "label.dns_current": "Current DNS",
@@ -55,5 +67,88 @@
   "label.verdict.clean": "clean",
   "label.verdict.polluted": "polluted",
   "label.verdict.suspicious": "suspicious",
-  "label.verdict.timeout": "timeout"
+  "label.verdict.timeout": "timeout",
+  "label.country_title": "Choose your country / region",
+  "label.country_name": "Country / Region",
+  "label.country": "Country",
+  "label.lang": "Language",
+  "label.feature": "Feature",
+  "label.admin": "Privilege",
+  "label.summary": "Summary",
+  "label.fix_hint": "Suggested fix",
+  "label.step": "Step",
+  "label.result": "Result",
+  "label.detail": "Detail",
+  "label.outage_chain": "Outage diagnosis chain",
+  "label.need_admin": "Admin",
+  "label.no_admin": "User",
+
+  "menu.lang.name": "Switch language",
+  "menu.lang.short": "Re-pick the UI language at any time.",
+  "menu.lang.long": "Open the language picker. The choice is persisted to .netmedic_config.json so subsequent runs reuse it.",
+
+  "menu.country.name": "Switch country / region",
+  "menu.country.short": "Tell NetMedic where you are so the right DNS pool is preferred.",
+  "menu.country.long": "Choose your country or region. NetMedic will rank DNS providers based on which ones tend to perform best from there. AUTO uses your IP-based location.",
+
+  "menu.check.name": "Full network checkup",
+  "menu.check.short": "Adapter, ping, DNS speed, pollution, MTU — everything in one go.",
+  "menu.check.long": "Inspect the active adapter, ping domestic + foreign hosts, benchmark public DNS speed, run the GFW poison-IP check, and report MTU. Read-only — does not modify anything.",
+
+  "menu.recommend.name": "Recommend best DNS",
+  "menu.recommend.short": "Speed + pollution test, suggest a config (does not change the system).",
+  "menu.recommend.long": "Run benchmarks and pollution detection, then print a recommendation: which Chinese DNS, which foreign DNS, and which split-DNS namespaces. Detects port-53 hijacks and warns instead of silently picking garbage.",
+
+  "menu.apply.name": "Apply (UDP/53)",
+  "menu.apply.short": "Write the recommended DNS + NRPT rules to the active adapter.",
+  "menu.apply.long": "Set the adapter DNS to the fastest clean foreign DNS, then write NRPT rules so Chinese namespaces resolve via the fastest Chinese DNS. Original state is backed up to backups/latest.json so restore is one command away.",
+
+  "menu.restore.name": "Restore from backup",
+  "menu.restore.short": "Roll the adapter DNS + NRPT rules back to the previous state.",
+  "menu.restore.long": "Read backups/latest.json and put back what was there before. Removes any NRPT rules NetMedic added (identified by the [NetMedic] comment tag).",
+
+  "menu.force_doh.name": "Force DoH (bypass router hijack)",
+  "menu.force_doh.short": "Switch to encrypted DNS over HTTPS:443 — soft router can't intercept.",
+  "menu.force_doh.long": "Benchmark every DoH provider over real HTTPS, run pollution detection, then show a Top-5 menu. The pick becomes the primary DoH; Chinese namespaces are pinned to a Chinese DoH via NRPT. Requires Windows 11 (uses native DoH support).",
+
+  "menu.bench_doh.name": "Benchmark DoH providers",
+  "menu.bench_doh.short": "Just measure DoH latency + cleanliness, no system change.",
+  "menu.bench_doh.long": "Send real HTTPS DoH queries to every supported provider, time them, and probe each one for pollution. Useful before deciding which to apply.",
+
+  "menu.flush.name": "Flush DNS cache",
+  "menu.flush.short": "Equivalent of `ipconfig /flushdns`.",
+  "menu.flush.long": "Clears the Windows DNS resolver cache. Useful after editing hosts, switching DNS, or chasing a stale-record bug.",
+
+  "menu.status.name": "Show status",
+  "menu.status.short": "Display the current adapter and NRPT rules.",
+  "menu.status.long": "Read-only summary of the active network adapter (alias, IP, gateway, current DNS) plus all NRPT name-resolution policies, including those NetMedic owns.",
+
+  "menu.hosts_fix.name": "Repair hosts file",
+  "menu.hosts_fix.short": "Find and remove duplicate / blackhole / malformed hosts entries.",
+  "menu.hosts_fix.long": "Analyse C:\\Windows\\System32\\drivers\\etc\\hosts: detect duplicate hostnames, blackhole entries pointing to 0.0.0.0/127.0.0.1 (typical ad-blocker leftovers), and malformed lines. Optionally rewrite the file with issues fixed; never touches lines inside another tool's marker block.",
+
+  "menu.outage.name": "Diagnose network outage",
+  "menu.outage.short": "Step through loopback → gateway → Internet → DNS → HTTPS to locate where it broke.",
+  "menu.outage.long": "Five-layer probe that stops at the first failure and points you at the right fix. Tells loopback failure apart from gateway failure apart from DNS failure apart from HTTPS failure — so you don't randomly toggle settings.",
+
+  "menu.hijack.name": "Detect router DNS hijack",
+  "menu.hijack.short": "Tell whether your gateway is intercepting / caching port 53 traffic.",
+  "menu.hijack.long": "Sends UDP probes to several reputable overseas DNS and times them. If most respond in <5 ms, that's physically impossible from any China-side network — the router is intercepting port 53 and impersonating the upstream. Suggests Force-DoH as the fix.",
+
+  "menu.exit.name": "Exit",
+  "menu.exit.short": "Quit NetMedic.",
+  "menu.exit.long": "Close the launcher. Settings are already persisted.",
+
+  "label.scope_title": "DoH candidate scope",
+  "label.scope_name": "Scope",
+  "msg.pick_scope": "Pick a scope (Enter = current)",
+  "msg.set_ipv6": "Set IPv6 DoH addresses too? (y/n)",
+  "msg.ipv6_skip": "skipping IPv6 DoH",
+
+  "scope.country.name": "Country only",
+  "scope.country.short": "Only DoH providers based in your country / region.",
+  "scope.country_plus.name": "Country + global majors",
+  "scope.country_plus.short": "Above, plus Cloudflare, Google, Quad9.",
+  "scope.all.name": "All providers",
+  "scope.all.short": "Every uncensored DoH NetMedic ships."
 }

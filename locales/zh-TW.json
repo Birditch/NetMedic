@@ -32,6 +32,18 @@
   "msg.done": "完成",
   "msg.hijack_detected": "幾乎所有境外 DNS 回應都 < 5ms — 物理上不可能. 你所在的網路 (極可能是軟路由) 在 UDP 53 埠攔截或快取了 DNS 流量.",
   "msg.verify_steps": "驗證:\n  1. 瀏覽器打開 https://1.1.1.1/help — 應顯示 \"Using DNS over HTTPS (DoH): Yes\"\n  2. 複測 QQ 快捷登入 / Google\n\n還原: python run.py restore",
+  "msg.pick_country": "選擇國家或地區",
+  "msg.pick_action": "請輸入功能編號",
+  "msg.run_now": "現在執行此功能? (y/n)",
+  "msg.press_enter": "按 Enter 返回選單…",
+  "msg.hosts_analysed": "hosts 已分析: {total} 行, {active} 條有效, {issues} 個問題",
+  "msg.hosts_clean": "hosts 檔案乾淨, 無需修復.",
+  "msg.hosts_fix_confirm": "自動修復以上問題?",
+  "msg.hosts_repaired": "hosts 已修復: 保留 {kept} 條, 刪除 {removed} 條",
+  "msg.outage_all_ok": "五層鏈路全通, 沒有斷網.",
+  "msg.hijack_yes": "本地網路確實在 53 埠攔截 DNS.",
+  "msg.hijack_no": "未檢出 53 埠攔截, DNS 路徑看起來正常.",
+  "msg.hijack_unknown": "境外 DNS 全部不可達, 無法判斷.",
 
   "label.adapter": "使用中的網路卡",
   "label.dns_current": "目前 DNS",
@@ -55,5 +67,75 @@
   "label.verdict.clean": "乾淨",
   "label.verdict.polluted": "汙染",
   "label.verdict.suspicious": "可疑",
-  "label.verdict.timeout": "逾時"
+  "label.verdict.timeout": "逾時",
+  "label.country_title": "選擇國家/地區",
+  "label.country_name": "國家/地區",
+  "label.country": "國家",
+  "label.lang": "語言",
+  "label.feature": "功能",
+  "label.admin": "權限",
+  "label.summary": "概要",
+  "label.fix_hint": "建議",
+  "label.step": "步驟",
+  "label.result": "結果",
+  "label.detail": "詳情",
+  "label.outage_chain": "斷網診斷鏈路",
+  "label.need_admin": "需管理員",
+  "label.no_admin": "一般使用者",
+
+  "menu.lang.name": "切換語言",
+  "menu.lang.short": "隨時重新選擇 UI 語言.",
+  "menu.lang.long": "開啟語言選擇器. 選擇會儲存到 .netmedic_config.json, 下次啟動會自動沿用.",
+
+  "menu.country.name": "切換國家/地區",
+  "menu.country.short": "告訴 NetMedic 你在哪, 優先匹配最合適的 DNS 候選池.",
+  "menu.country.long": "選擇你所在的國家或地區. NetMedic 會按當地經驗優先排序 DNS 提供者. 選 AUTO 會按 IP 自動判斷.",
+
+  "menu.check.name": "全面網路健檢",
+  "menu.check.short": "網路卡 + 連通性 + DNS 測速 + 汙染檢測 + MTU, 一條命令全部跑完.",
+  "menu.check.long": "檢查使用中的網路卡, 對國內+境外站點做 ping/丟包測試, 測公共 DNS 速度, 跑 GFW 假 IP 表比對, 回報 MTU. 唯讀模式, 不會更改任何系統設定.",
+
+  "menu.recommend.name": "推薦最佳 DNS",
+  "menu.recommend.short": "測速+汙染檢測後給推薦 (不動系統).",
+  "menu.recommend.long": "跑測速 + 汙染檢測後, 推薦哪個國內 DNS、哪個境外 DNS、哪些命名空間要分流. 若偵測到 53 埠被攔截, 會明確告警而不是給假最優.",
+
+  "menu.apply.name": "套用設定 (UDP/53)",
+  "menu.apply.short": "把推薦的 DNS + NRPT 分流寫入目前網路卡.",
+  "menu.apply.long": "把網路卡 DNS 改成最快的乾淨境外 DNS, 並寫 NRPT 規則讓國內網域走最快的國內 DNS. 原設定自動備份到 backups/latest.json, 一鍵 restore 即可還原.",
+
+  "menu.restore.name": "從備份還原",
+  "menu.restore.short": "把網路卡 DNS + NRPT 規則恢復到上次狀態.",
+  "menu.restore.long": "讀 backups/latest.json 還原原本的 DNS, 同時清掉 NetMedic 寫過的 NRPT 規則 (用 [NetMedic] 標籤辨識, 不會誤刪別的程式的策略).",
+
+  "menu.force_doh.name": "強制 DoH (繞過路由器攔截)",
+  "menu.force_doh.short": "切到加密 DNS (HTTPS:443), 軟路由攔不到.",
+  "menu.force_doh.long": "對每個 DoH 提供者發真實 HTTPS 查詢做測速 + 汙染檢測, 然後彈 Top 5 選單讓你選. 選中者成為主 DoH, 國內網域透過 NRPT 固定走國內 DoH. 需要 Windows 11 (用其原生 DoH 支援).",
+
+  "menu.bench_doh.name": "DoH 測速排行",
+  "menu.bench_doh.short": "只跑 DoH 測速 + 汙染檢測, 不動系統.",
+  "menu.bench_doh.long": "對所有支援的 DoH 發真實 HTTPS 查詢, 測延遲與成功率, 同時檢測汙染. 決定要不要 apply 之前先看這張表.",
+
+  "menu.flush.name": "清空 DNS 快取",
+  "menu.flush.short": "等同於 `ipconfig /flushdns`.",
+  "menu.flush.long": "清空 Windows DNS 解析器快取. 改 hosts、切換 DNS、追陳舊記錄的 bug 之後可用.",
+
+  "menu.status.name": "查看目前狀態",
+  "menu.status.short": "顯示目前網路卡和 NRPT 規則.",
+  "menu.status.long": "唯讀顯示目前使用中的網路卡 (名稱、IP、閘道、目前 DNS) + 所有 NRPT 名稱解析策略 (含 NetMedic 自己寫的).",
+
+  "menu.hosts_fix.name": "修復 hosts 檔案",
+  "menu.hosts_fix.short": "找重複條目、黑洞條目、格式錯誤並清理.",
+  "menu.hosts_fix.long": "掃描 C:\\Windows\\System32\\drivers\\etc\\hosts: 偵測重複主機名、指向 0.0.0.0/127.0.0.1 的黑洞條目 (常見廣告封鎖殘留)、格式錯誤的行. 可選擇把問題行清掉重寫檔案; 任何標記區塊 (含其它工具的) 內的行都不會動.",
+
+  "menu.outage.name": "斷網診斷",
+  "menu.outage.short": "Loopback → 閘道 → 網際網路 → DNS → HTTPS, 五層逐級測.",
+  "menu.outage.long": "五層鏈路探測, 在第一個失敗的層停下並給對應建議. 區分 loopback 故障 / 閘道故障 / DNS 故障 / HTTPS 故障 — 不用瞎試.",
+
+  "menu.hijack.name": "偵測路由器 DNS 攔截",
+  "menu.hijack.short": "判斷閘道是否在攔截/偽造 53 埠流量.",
+  "menu.hijack.long": "對幾個境外公共 DNS 發 UDP 探測封包並計時. 如果都 < 5ms 回應, 在中國境內任何路徑物理上都不可能 — 路由器在攔截 53 埠並冒充上游. 命中後建議用 Force-DoH 解決.",
+
+  "menu.exit.name": "離開",
+  "menu.exit.short": "離開 NetMedic.",
+  "menu.exit.long": "關閉啟動器. 設定已儲存, 下次啟動會沿用."
 }

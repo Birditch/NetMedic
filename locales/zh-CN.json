@@ -32,6 +32,18 @@
   "msg.done": "完成",
   "msg.hijack_detected": "几乎所有境外 DNS 响应都 < 5ms — 物理上不可能. 你所在的网络 (大概率是软路由) 在 UDP 53 端口拦截/缓存了 DNS 流量.",
   "msg.verify_steps": "验证:\n  1. 浏览器开 https://1.1.1.1/help — 应显示 \"Using DNS over HTTPS (DoH): Yes\"\n  2. 复测 QQ 快捷登录 / Google\n\n还原: python run.py restore",
+  "msg.pick_country": "选择国家或地区",
+  "msg.pick_action": "请输入功能编号",
+  "msg.run_now": "现在运行该功能? (y/n)",
+  "msg.press_enter": "按 Enter 返回菜单…",
+  "msg.hosts_analysed": "hosts 已分析: {total} 行, {active} 条有效, {issues} 个问题",
+  "msg.hosts_clean": "hosts 文件干净, 无需修复.",
+  "msg.hosts_fix_confirm": "自动修复以上问题?",
+  "msg.hosts_repaired": "hosts 已修复: 保留 {kept} 条, 删除 {removed} 条",
+  "msg.outage_all_ok": "五层链路全通, 没有断网.",
+  "msg.hijack_yes": "本地网络确实在 53 端口劫持 DNS.",
+  "msg.hijack_no": "未检出 53 端口劫持, DNS 路径看起来正常.",
+  "msg.hijack_unknown": "境外 DNS 全部不可达, 无法判断.",
 
   "label.adapter": "活动网卡",
   "label.dns_current": "当前 DNS",
@@ -55,5 +67,88 @@
   "label.verdict.clean": "干净",
   "label.verdict.polluted": "污染",
   "label.verdict.suspicious": "可疑",
-  "label.verdict.timeout": "超时"
+  "label.verdict.timeout": "超时",
+  "label.country_title": "选择国家/地区",
+  "label.country_name": "国家/地区",
+  "label.country": "国家",
+  "label.lang": "语言",
+  "label.feature": "功能",
+  "label.admin": "权限",
+  "label.summary": "概要",
+  "label.fix_hint": "建议",
+  "label.step": "步骤",
+  "label.result": "结果",
+  "label.detail": "详情",
+  "label.outage_chain": "断网诊断链路",
+  "label.need_admin": "需管理员",
+  "label.no_admin": "普通用户",
+
+  "menu.lang.name": "切换语言",
+  "menu.lang.short": "随时重新选择 UI 语言.",
+  "menu.lang.long": "打开语言选择器. 选择会保存到 .netmedic_config.json, 下次启动会自动沿用.",
+
+  "menu.country.name": "切换国家/地区",
+  "menu.country.short": "告诉 NetMedic 你在哪, 优先匹配最合适的 DNS 候选池.",
+  "menu.country.long": "选择你所在的国家或地区. NetMedic 会按当地经验优先排序 DNS 提供商. 选 AUTO 会按 IP 自动判断.",
+
+  "menu.check.name": "全面网络体检",
+  "menu.check.short": "网卡 + 连通性 + DNS 测速 + 污染检测 + MTU, 一条命令全部跑完.",
+  "menu.check.long": "检查活动网卡, 对国内+境外站点 ping/丢包检测, 测公共 DNS 速度, 跑 GFW 假 IP 表对比, 报告 MTU. 只读模式, 不会改任何系统配置.",
+
+  "menu.recommend.name": "推荐最佳 DNS",
+  "menu.recommend.short": "测速+污染检测后给出推荐 (不动系统).",
+  "menu.recommend.long": "跑测速 + 污染检测后, 推荐哪个国内 DNS、哪个境外 DNS、哪些命名空间需要分流. 如果检测到 53 端口被劫持, 会明确告警而不是给个假最优.",
+
+  "menu.apply.name": "应用配置 (UDP/53)",
+  "menu.apply.short": "把推荐的 DNS + NRPT 分流写入到当前网卡.",
+  "menu.apply.long": "把网卡 DNS 改成最快的干净境外 DNS, 写 NRPT 规则让国内域名走最快的国内 DNS. 原配置自动备份到 backups/latest.json, 一键 restore 即可还原.",
+
+  "menu.restore.name": "从备份还原",
+  "menu.restore.short": "把网卡 DNS + NRPT 规则恢复到上次状态.",
+  "menu.restore.long": "读 backups/latest.json 还原原本的 DNS, 同时清掉 NetMedic 写过的 NRPT 规则 (用 [NetMedic] 标签识别, 不会误删别的程序的策略).",
+
+  "menu.force_doh.name": "强制 DoH (绕过路由器劫持)",
+  "menu.force_doh.short": "切到加密 DNS (HTTPS:443), 软路由拦不到.",
+  "menu.force_doh.long": "对每个 DoH 提供商发真实 HTTPS 查询测速 + 污染检测, 然后弹 Top 5 菜单让你选. 选中的成为主 DoH, 国内域名通过 NRPT 固定走国内 DoH. 需要 Windows 11 (用其原生 DoH 支持).",
+
+  "menu.bench_doh.name": "DoH 测速排行",
+  "menu.bench_doh.short": "只跑 DoH 测速 + 污染检测, 不动系统.",
+  "menu.bench_doh.long": "对所有支持的 DoH 发真实 HTTPS 查询, 测延迟和成功率, 同时检测污染. 决定要不要 apply 之前先看这个.",
+
+  "menu.flush.name": "刷新 DNS 缓存",
+  "menu.flush.short": "等价于 `ipconfig /flushdns`.",
+  "menu.flush.long": "清空 Windows DNS 解析器的缓存. 改 hosts、切 DNS、追陈旧记录的 bug 之后用.",
+
+  "menu.status.name": "查看当前状态",
+  "menu.status.short": "显示当前网卡和 NRPT 规则.",
+  "menu.status.long": "只读显示当前活动网卡 (名称、IP、网关、当前 DNS) + 所有 NRPT 名称解析策略 (含 NetMedic 自己写的).",
+
+  "menu.hosts_fix.name": "修复 hosts 文件",
+  "menu.hosts_fix.short": "查重复条目、黑洞条目、格式错误并清理.",
+  "menu.hosts_fix.long": "扫描 C:\\Windows\\System32\\drivers\\etc\\hosts: 检测重复主机名、指向 0.0.0.0/127.0.0.1 的黑洞条目 (常见广告屏蔽器残留)、格式错误的行. 可选择把问题行清理掉重写文件; 任何标记块 (含其它工具的) 内的行都不会动.",
+
+  "menu.outage.name": "断网诊断",
+  "menu.outage.short": "Loopback → 网关 → 互联网 → DNS → HTTPS, 五层逐级测.",
+  "menu.outage.long": "五层链路探测, 在第一个失败的层停下并给出对应建议. 区分 loopback 故障 / 网关故障 / DNS 故障 / HTTPS 故障 — 让你不用瞎试.",
+
+  "menu.hijack.name": "检测路由器 DNS 劫持",
+  "menu.hijack.short": "判断网关是否在拦截/伪造 53 端口流量.",
+  "menu.hijack.long": "对几个境外公共 DNS 发 UDP 探测包并测时. 如果都 < 5ms 应答, 中国境内任何路径物理上都不可能 — 路由器在拦截 53 端口并冒充上游. 命中后建议用 Force-DoH 解决.",
+
+  "menu.exit.name": "退出",
+  "menu.exit.short": "退出 NetMedic.",
+  "menu.exit.long": "关闭启动器. 配置已经保存了, 下次启动会沿用.",
+
+  "label.scope_title": "DoH 候选范围",
+  "label.scope_name": "范围",
+  "msg.pick_scope": "选择范围 (Enter = 沿用上次)",
+  "msg.set_ipv6": "同时设置 IPv6 DoH 吗? (y/n)",
+  "msg.ipv6_skip": "跳过 IPv6 DoH",
+
+  "scope.country.name": "仅当前国家/地区",
+  "scope.country.short": "只测属于你所在国家/地区的 DoH 提供商.",
+  "scope.country_plus.name": "当前国家 + 全球大厂",
+  "scope.country_plus.short": "上一项 + Cloudflare、Google、Quad9.",
+  "scope.all.name": "全部提供商",
+  "scope.all.short": "NetMedic 内置的所有无审查 DoH."
 }

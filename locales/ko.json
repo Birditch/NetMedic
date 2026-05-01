@@ -32,6 +32,18 @@
   "msg.done": "완료",
   "msg.hijack_detected": "거의 모든 해외 DNS가 5ms 미만으로 응답 — 물리적으로 불가능합니다. 사용 중인 네트워크 (대개 소프트 라우터)가 UDP 53 포트에서 DNS를 가로채거나 캐싱하고 있습니다.",
   "msg.verify_steps": "확인:\n  1. 브라우저에서 https://1.1.1.1/help — \"Using DNS over HTTPS (DoH): Yes\" 표시 확인\n  2. QQ 빠른 로그인 / Google 재테스트\n\n복원: python run.py restore",
+  "msg.pick_country": "국가/지역 선택",
+  "msg.pick_action": "기능 번호를 입력하세요",
+  "msg.run_now": "지금 실행하시겠습니까? (y/n)",
+  "msg.press_enter": "Enter 를 눌러 메뉴로 돌아가기…",
+  "msg.hosts_analysed": "hosts 분석 완료: {total}줄, 활성 {active}건, 문제 {issues}건",
+  "msg.hosts_clean": "hosts 파일 깨끗함, 수리 불필요.",
+  "msg.hosts_fix_confirm": "위 문제를 자동 수리할까요?",
+  "msg.hosts_repaired": "hosts 수리 완료: 유지 {kept}건 / 제거 {removed}건",
+  "msg.outage_all_ok": "5계층 모두 도달 가능 — 단절 없음.",
+  "msg.hijack_yes": "로컬 네트워크가 53 포트에서 DNS를 가로채고 있습니다.",
+  "msg.hijack_no": "53 포트 가로채기 미감지. DNS 경로 정상으로 보입니다.",
+  "msg.hijack_unknown": "해외 DNS 모두 도달 불가, 판단 불가.",
 
   "label.adapter": "활성 어댑터",
   "label.dns_current": "현재 DNS",
@@ -55,5 +67,75 @@
   "label.verdict.clean": "깨끗함",
   "label.verdict.polluted": "오염됨",
   "label.verdict.suspicious": "의심됨",
-  "label.verdict.timeout": "시간 초과"
+  "label.verdict.timeout": "시간 초과",
+  "label.country_title": "국가/지역 선택",
+  "label.country_name": "국가/지역",
+  "label.country": "국가",
+  "label.lang": "언어",
+  "label.feature": "기능",
+  "label.admin": "권한",
+  "label.summary": "요약",
+  "label.fix_hint": "권장 조치",
+  "label.step": "단계",
+  "label.result": "결과",
+  "label.detail": "세부사항",
+  "label.outage_chain": "단절 진단 체인",
+  "label.need_admin": "관리자 필요",
+  "label.no_admin": "사용자",
+
+  "menu.lang.name": "언어 변경",
+  "menu.lang.short": "UI 언어를 언제든 다시 선택할 수 있습니다.",
+  "menu.lang.long": "언어 선택기를 엽니다. 선택은 .netmedic_config.json 에 저장되어 다음 실행 때 자동으로 사용됩니다.",
+
+  "menu.country.name": "국가/지역 변경",
+  "menu.country.short": "위치를 알려 NetMedic 이 가장 적합한 DNS 풀을 우선시하도록 합니다.",
+  "menu.country.long": "사용 중인 국가 또는 지역을 선택하세요. 현지 성능이 좋은 DNS 공급자를 우선 정렬합니다. AUTO 는 IP 기반으로 자동 판단합니다.",
+
+  "menu.check.name": "전체 네트워크 진단",
+  "menu.check.short": "어댑터 + ping + DNS 속도 + 오염 + MTU 한 번에.",
+  "menu.check.long": "활성 어댑터 점검, 국내·해외 호스트 ping/손실, 공용 DNS 속도 벤치마크, GFW 독 IP 표 대조, MTU 보고. 읽기 전용으로 시스템을 변경하지 않습니다.",
+
+  "menu.recommend.name": "최적 DNS 추천",
+  "menu.recommend.short": "속도 + 오염 검사 후 추천 (시스템 변경 없음).",
+  "menu.recommend.long": "벤치와 오염 검출 후 어떤 중국 DNS / 해외 DNS / 분기 네임스페이스를 쓸지 추천합니다. 53 포트 가로채기가 감지되면 가짜 최적 대신 명확히 경고합니다.",
+
+  "menu.apply.name": "적용 (UDP/53)",
+  "menu.apply.short": "추천 DNS + NRPT 규칙을 어댑터에 기록.",
+  "menu.apply.long": "어댑터 DNS를 가장 빠르고 깨끗한 해외 DNS로 설정하고, 중국 네임스페이스가 가장 빠른 중국 DNS로 가도록 NRPT 규칙을 작성합니다. 원본은 backups/latest.json 에 자동 백업되어 restore 한 번이면 되돌릴 수 있습니다.",
+
+  "menu.restore.name": "백업에서 복원",
+  "menu.restore.short": "어댑터 DNS + NRPT 규칙을 이전 상태로 되돌립니다.",
+  "menu.restore.long": "backups/latest.json 을 읽어 원래 DNS를 복원하고, NetMedic 이 작성한 NRPT 규칙([NetMedic] 태그로 식별)만 제거합니다. 다른 정책은 건드리지 않습니다.",
+
+  "menu.force_doh.name": "DoH 강제 (라우터 가로채기 우회)",
+  "menu.force_doh.short": "암호화 DNS (HTTPS:443) 로 전환 — 소프트 라우터가 가로챌 수 없음.",
+  "menu.force_doh.long": "모든 DoH 공급자에 실제 HTTPS 쿼리로 속도 + 오염 검사 후 TOP 5 메뉴를 표시합니다. 선택한 항목이 기본 DoH 가 되고, 중국 네임스페이스는 NRPT 로 중국 DoH 에 고정됩니다. Windows 11 (네이티브 DoH 지원) 필요.",
+
+  "menu.bench_doh.name": "DoH 벤치마크",
+  "menu.bench_doh.short": "DoH 지연 + 깨끗함만 측정, 시스템 변경 없음.",
+  "menu.bench_doh.long": "지원하는 모든 공급자에 실제 HTTPS DoH 쿼리를 보내 지연과 성공률을 측정하고 오염을 검사합니다. apply 결정 전에 확인하기 좋습니다.",
+
+  "menu.flush.name": "DNS 캐시 비우기",
+  "menu.flush.short": "`ipconfig /flushdns` 와 동일.",
+  "menu.flush.long": "Windows DNS 리졸버 캐시를 비웁니다. hosts 편집, DNS 전환, 오래된 레코드 디버깅 후 유용.",
+
+  "menu.status.name": "현재 상태 보기",
+  "menu.status.short": "현재 어댑터 및 NRPT 규칙을 표시.",
+  "menu.status.long": "활성 어댑터 (이름, IP, 게이트웨이, 현재 DNS) 와 NetMedic 소유 항목 포함 모든 NRPT 정책을 읽기 전용으로 요약합니다.",
+
+  "menu.hosts_fix.name": "hosts 파일 수리",
+  "menu.hosts_fix.short": "중복/블랙홀/형식오류 항목 찾고 정리.",
+  "menu.hosts_fix.long": "C:\\Windows\\System32\\drivers\\etc\\hosts 분석: 중복 호스트명, 0.0.0.0/127.0.0.1 가리키는 블랙홀 항목(흔한 광고 차단 잔여물), 형식 오류 줄을 검출. 문제 줄을 정리해 파일을 다시 쓸 수 있으며, 다른 도구의 마커 블록 안은 절대 건드리지 않습니다.",
+
+  "menu.outage.name": "네트워크 단절 진단",
+  "menu.outage.short": "Loopback → 게이트웨이 → 인터넷 → DNS → HTTPS 5계층 점검.",
+  "menu.outage.long": "5계층 프로브로 첫 실패 지점에서 멈추고 해당 단계의 해결책을 제시합니다. loopback / 게이트웨이 / DNS / HTTPS 장애를 구분 — 무작정 설정을 바꾸지 않아도 됩니다.",
+
+  "menu.hijack.name": "라우터 DNS 가로채기 검사",
+  "menu.hijack.short": "게이트웨이가 53 포트 트래픽을 가로채는지 판단.",
+  "menu.hijack.long": "여러 신뢰할 수 있는 해외 공용 DNS 에 UDP 프로브를 보내고 시간을 측정합니다. 거의 모두 5ms 미만으로 응답하면 중국에서 어떤 경로도 물리적으로 불가 — 라우터가 53 포트를 가로채 상위인 척하고 있는 것입니다. Force-DoH 사용을 권장합니다.",
+
+  "menu.exit.name": "종료",
+  "menu.exit.short": "NetMedic 종료.",
+  "menu.exit.long": "런처를 닫습니다. 설정은 이미 저장되어 다음 실행 때 사용됩니다."
 }
