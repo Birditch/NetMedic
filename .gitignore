@@ -31,6 +31,7 @@ desktop.ini
 backups/
 logs/
 .netmedic/
+.netmedic_config.json
 
 # Tooling / agent state
 .omc/
