@@ -25,7 +25,9 @@ from rich.table import Table
 from rich import box
 
 from .config import CONNECTIVITY_TARGETS
+from . import user_config
 from .data.cn_domains import CN_NAMESPACES
+from .data.dns_scope import SCOPE_VALUES, filter_providers
 from .data.public_dns import ALL_SERVERS, CN_SERVERS, INTL_SERVERS
 from .detect.adapter import get_active_adapter
 from .detect.connectivity import ping_many
@@ -41,12 +43,11 @@ from .fix.doh import (
     DOH_TEMPLATES,
     doh_supported,
     filter_doh_capable,
-    list_doh_servers,
     register_doh,
 )
 from .fix.flush import flush_dns
 from .fix.nrpt import add_rules, list_rules, remove_our_rules
-from .i18n import SUPPORTED, set_lang, t
+from .i18n import SUPPORTED, set_lang
 from .reporter import (
     console,
     render_adapter,
@@ -387,6 +388,10 @@ def force_doh(
     ),
     no_nrpt: bool = typer.Option(False, "--no-nrpt", help="不写 NRPT 分流规则"),
     no_ipv6: bool = typer.Option(False, "--no-ipv6", help="即使 IPv6 可用也跳过"),
+    scope: str = typer.Option(
+        None, "--scope",
+        help=f"DoH 候选范围: {' / '.join(SCOPE_VALUES)} (默认读 user_config)",
+    ),
 ):
     """自动测速 + 污染检测 → top 5 选优 → 切到 DoH (HTTPS:443) 绕过软路由 53 劫持."""
     _need_admin()
@@ -423,11 +428,25 @@ def force_doh(
             f"\nIPv6 连通性: {'[green]可用 ✓[/green]' if ipv6_ok else '[dim]不可用[/dim]'}"
         )
 
-        # Bench all providers
+        # Resolve scope: explicit flag > user_config > sensible default.
+        cfg = user_config.load()
+        effective_scope = scope or cfg.get("scope") or "country+majors"
+        if effective_scope not in SCOPE_VALUES:
+            effective_scope = "country+majors"
+        country = cfg.get("country", "AUTO")
+        candidates = filter_providers(DOH_PROVIDERS, effective_scope, country)
+        console.print(
+            f"[dim]Scope:[/dim] [cyan]{effective_scope}[/cyan]   "
+            f"[dim]Country:[/dim] [cyan]{country}[/cyan]   "
+            f"[dim]Candidates:[/dim] [cyan]{len(candidates)}[/cyan] "
+            f"of {len(DOH_PROVIDERS)}"
+        )
+
+        # Bench scoped providers
         with console.status(
             "[cyan]正在对每个 DoH 提供商做真实 HTTPS 测速 + 污染检测 (15-40 秒)..."
         ):
-            doh_results = benchmark_all_doh(DOH_PROVIDERS)
+            doh_results = benchmark_all_doh(candidates)
         console.print()
         render_doh_bench(doh_results)
 
