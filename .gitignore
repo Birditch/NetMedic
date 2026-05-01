@@ -8,6 +8,8 @@ build/
 dist/
 *.egg-info/
 *.egg
+*.whl
+*.tar.gz
 
 # Virtual envs
 venv/
