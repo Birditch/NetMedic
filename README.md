@@ -1,30 +1,34 @@
 <!--
-   NetMedic - Windows DNS & connectivity doctor
-   Author: Birditch  |  License: MIT  |  Version: 1.0.0
-   Keywords: Windows DNS repair, DoH (DNS over HTTPS), encrypted DNS,
+   NetMedic - DNS & connectivity doctor
+   Author: Birditch  |  License: MIT  |  Version: 1.0.1b1
+   Keywords: cross-platform DNS repair, DoH (DNS over HTTPS), encrypted DNS,
              split-horizon DNS, NRPT, soft-router diagnosis, dnspython,
              cross-region DNS routing
 -->
 
-# NetMedic — Windows DNS / Network Doctor
+# NetMedic — DNS / Network Doctor
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](netmedic/__init__.py)
+[![Version](https://img.shields.io/badge/version-1.0.1b1-blue.svg)](netmedic/__init__.py)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-lightgrey.svg)](#requirements)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](#requirements)
 [![CI](https://github.com/Birditch/NetMedic/actions/workflows/ci.yml/badge.svg)](https://github.com/Birditch/NetMedic/actions/workflows/ci.yml)
 [![GitHub stars](https://img.shields.io/github/stars/Birditch/NetMedic?style=social)](https://github.com/Birditch/NetMedic/stargazers)
 
-> **Detect and repair DNS / connectivity issues on Windows. First-class
-> support for "asymmetric-exit" home networks (a soft router that sends
-> some traffic through a foreign exit while keeping the rest local) where
-> naive DNS configs cause subtle slowness, broken third-party logins, and
-> region-mismatched routing.**
+> **Cross-platform DNS / connectivity doctor. Windows has the full
+> repair backend today, including native DoH and NRPT split DNS; macOS
+> and Linux packaging/runtime support is in preview while their
+> DNS-mutating backends land incrementally. NetMedic is tuned for
+> "asymmetric-exit" home networks where naive DNS configs cause subtle
+> slowness, broken third-party logins, and region-mismatched routing.**
 
-**Platform status**: Windows-only today. **Linux** and **macOS** support is
-on the [ROADMAP](ROADMAP.md) — the cross-platform abstraction is already
-scaffolded under `netmedic/platform_adapter.py`, and backends will land
-incrementally.
+**Platform status**:
+
+| Platform | Status |
+|---|---|
+| Windows 10 / 11 | Full diagnostic and repair support. Windows 11 is recommended for native DoH. |
+| macOS 12+ | Pure-Python package/runtime preview; DNS-changing backend is tracked on the [ROADMAP](ROADMAP.md). |
+| Linux | Pure-Python package/runtime preview; resolver backend is tracked on the [ROADMAP](ROADMAP.md). |
 
 **Languages**: **English** · [简体中文](README-zh-CN.md) · [繁體中文](README-zh-TW.md)
 
@@ -109,7 +113,7 @@ bypass port-53 interception entirely.
 
 | Component | Version |
 |---|---|
-| Operating system | **Windows 10 / 11** today. Linux / macOS planned — see [ROADMAP](ROADMAP.md). |
+| Operating system | **Windows 10 / 11**, **macOS 12+**, **Linux**. Full DNS repair backend is Windows today; macOS / Linux backends are in progress. |
 | Python | **3.10+** (driven by dnspython 2.8 and typer 0.25) |
 | Privileges | Administrator for `apply`, `restore`, `force-doh`, `hosts-fix` |
 

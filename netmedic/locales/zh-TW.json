@@ -80,8 +80,8 @@
   "label.result": "結果",
   "label.detail": "詳情",
   "label.outage_chain": "斷網診斷鏈路",
-  "label.need_admin": "需管理員",
-  "label.no_admin": "一般使用者",
+  "label.need_admin": "管理員",
+  "label.no_admin": "一般",
 
   "menu.lang.name": "切換語言",
   "menu.lang.short": "隨時重新選擇 UI 語言.",

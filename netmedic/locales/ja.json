@@ -80,8 +80,8 @@
   "label.result": "結果",
   "label.detail": "詳細",
   "label.outage_chain": "障害診断チェーン",
-  "label.need_admin": "管理者必要",
-  "label.no_admin": "ユーザー",
+  "label.need_admin": "管理者",
+  "label.no_admin": "一般",
 
   "menu.lang.name": "言語の切替",
   "menu.lang.short": "UI 言語をいつでも変更可能。",

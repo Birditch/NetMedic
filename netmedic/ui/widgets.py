@@ -29,17 +29,15 @@ import json
 import os
 import sys
 
-from rich import box
 from rich.align import Align
 from rich.console import Console, Group, RenderableType
-from rich.panel import Panel
 from rich.rule import Rule
 from rich.text import Text
 
 from .. import __display_version__
 from ..i18n import LOCALES_DIR, t
 
-console = Console()
+console = Console(legacy_windows=False)
 
 
 # --- locale meta --------------------------------------------------------
@@ -59,26 +57,21 @@ def lang_native_name(code: str) -> str:
 
 def admin_badge(required: bool) -> str:
     if required:
-        return f"[bold red]🛡 {t('label.need_admin')}[/bold red]"
-    return f"[bold green]✓ {t('label.no_admin')}[/bold green]"
+        return f"[bold red]{t('label.need_admin')}[/bold red]"
+    return f"[bold green]{t('label.no_admin')}[/bold green]"
 
 
 # --- page chrome --------------------------------------------------------
 
-def banner() -> Panel:
+def banner() -> Group:
     """Top-of-screen identity banner with version + the *active* tagline."""
     title = Text()
     title.append("NetMedic ", style="bold cyan")
     title.append(f"v{__display_version__}", style="bold yellow")
     # Render the tagline in the user's selected language only — the i18n
     # loader returns the right value for whichever locale is active.
-    sub = Text(t("app.tagline"), style="dim italic")
-    return Panel(
-        Align.center(Group(title, sub)),
-        border_style="cyan",
-        box=box.HEAVY,
-        padding=(0, 2),
-    )
+    sub = Text(t("app.tagline"), style="dim")
+    return Group(Align.center(title), Align.center(sub))
 
 
 def breadcrumb(cfg: dict) -> Text:

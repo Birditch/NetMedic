@@ -10,8 +10,9 @@ on the linked issue when one exists.
 
 ## Cross-platform support
 
-> Today: Windows-only. The framework hooks are already in place under
-> ``netmedic/platform_adapter.py``.
+> Today: Windows has the fully wired repair backend. macOS and Linux
+> package/runtime support is available in preview, with DNS-mutating
+> backends landing through ``netmedic/platform_adapter.py``.
 
 - [ ] **macOS backend** (`MacOSPlatform`)
   - [ ] Active interface discovery via `scutil --dns` and

@@ -23,6 +23,12 @@ import os
 import subprocess
 import sys
 
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
+    except (AttributeError, ValueError):
+        pass
+
 # (import-name, pip-name) — pip-name may differ for namespaced packages.
 REQUIRED: list[tuple[str, str]] = [
     ("dns",   "dnspython>=2.8"),
@@ -55,7 +61,7 @@ def _try_rich():
         from rich.prompt import Confirm
         from rich.table import Table
         from rich import box
-        return Console(), Panel, Confirm, Table, box
+        return Console(legacy_windows=False), Panel, Confirm, Table, box
     except Exception:  # noqa: BLE001
         return None
 

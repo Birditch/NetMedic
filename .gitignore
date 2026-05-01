@@ -35,10 +35,6 @@ logs/
 .netmedic/
 .netmedic_config.json
 
-# Tooling / agent state
-.omc/
-.claude/
-
 # Test artifacts
 .pytest_cache/
 .coverage

@@ -15,8 +15,8 @@ arm64, ...). At runtime, NetMedic uses your system's Python interpreter.
 | OS | Architecture | Install path | Runtime status |
 |----|--------------|--------------|----------------|
 | Windows 10 / 11 | x64 / x86 / ARM64 | pip / wheel | **Fully supported** |
-| macOS 12+ | Intel / Apple Silicon | pip / wheel / Homebrew tap | Package installs; DNS-mutating commands NotImplementedError until macOS backend lands — see ROADMAP |
-| Ubuntu / Debian / Arch / Fedora | amd64 / arm64 | pip / wheel | Same as macOS — read-only commands work, DNS-mutating commands NotImplementedError |
+| macOS 12+ | Intel / Apple Silicon | pip / wheel / Homebrew tap | Pure-Python package/runtime preview; DNS-mutating backend in progress — see ROADMAP |
+| Ubuntu / Debian / Arch / Fedora | amd64 / arm64 | pip / wheel | Pure-Python package/runtime preview; resolver backend in progress — see ROADMAP |
 
 ## Method 1 — pip (recommended)
 

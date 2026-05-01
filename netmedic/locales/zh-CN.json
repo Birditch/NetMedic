@@ -81,8 +81,8 @@
   "label.result": "结果",
   "label.detail": "详情",
   "label.outage_chain": "断网诊断链路",
-  "label.need_admin": "需管理员",
-  "label.no_admin": "普通用户",
+  "label.need_admin": "管理员",
+  "label.no_admin": "普通",
 
   "menu.lang.name": "切换语言",
   "menu.lang.short": "随时重新选择 UI 语言.",
