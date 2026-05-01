@@ -1,7 +1,9 @@
-dnspython>=2.4
-rich>=13.7
-typer>=0.9
+# NetMedic runtime dependencies. CI installs with `pip install --upgrade -r`,
+# so the floors below pull the newest compatible release at install time.
+dnspython>=2.8
+rich>=14.0
+typer>=0.15
 
-# DoH (DNS-over-HTTPS) backend for dns.query.https — required by force-doh
-httpx>=0.25
-h2>=4.0
+# DoH (DNS-over-HTTPS) backend for dns.query.https — required by force-doh.
+httpx>=0.28
+h2>=4.3

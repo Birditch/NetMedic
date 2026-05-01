@@ -8,5 +8,6 @@ License: MIT
 """
 
 __version__ = "1.0.0"
+__minimum_python__ = "3.10"
 __author__ = "Birditch"
 __license__ = "MIT"
