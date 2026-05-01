@@ -7,7 +7,7 @@ The heavy lifting lives in:
 """
 from __future__ import annotations
 
-from rich.prompt import IntPrompt, Prompt
+from rich.prompt import Prompt
 
 from . import user_config
 from .i18n import set_lang, t
@@ -30,14 +30,12 @@ def _first_run(cfg: dict) -> dict:
 def _menu_loop(cfg: dict) -> None:
     items = menu.MENU_ITEMS
     while True:
-        menu.render(cfg)  # internally clears the screen first
         try:
-            choice = IntPrompt.ask(
-                f"\n[bold]{t('msg.pick_action')}[/bold]",
-                choices=[str(i) for i in range(1, len(items) + 1)],
-                show_choices=False,
-            )
+            choice = menu.render_and_pick(cfg)
         except (KeyboardInterrupt, EOFError):
+            console.print()
+            return
+        if choice is None:  # Esc / Ctrl+C from inside Live
             console.print()
             return
 

@@ -64,6 +64,7 @@
   "label.col.success_rate": "Success",
   "label.col.pollution": "Pollution",
   "label.col.notes": "Notes",
+  "label.col.status": "Status",
   "label.verdict.clean": "clean",
   "label.verdict.polluted": "polluted",
   "label.verdict.suspicious": "suspicious",

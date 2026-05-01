@@ -64,6 +64,7 @@
   "label.col.success_rate": "成功率",
   "label.col.pollution": "污染",
   "label.col.notes": "说明",
+  "label.col.status": "当前状态",
   "label.verdict.clean": "干净",
   "label.verdict.polluted": "污染",
   "label.verdict.suspicious": "可疑",
