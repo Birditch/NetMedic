@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "NetMedic — Cross-platform DNS & network diagnostic / repair tool"
+message: "If you use NetMedic in research, infrastructure documentation, or a derived work, please cite it as below."
+type: software
+authors:
+  - family-names: Birditch
+    given-names: ""
+    alias: Birditch
+    affiliation: "Independent"
+    city: "New York"
+    region: "NY"
+    country: US
+repository-code: "https://github.com/Birditch/NetMedic"
+url: "https://github.com/Birditch/NetMedic"
+abstract: >
+  NetMedic is a cross-platform DNS and network diagnostic / repair tool with a
+  Windows-first backend (DoH + NRPT split DNS) and a pure-Python runtime preview
+  for macOS and Linux. It is tuned for soft-router and port-53 hijack
+  troubleshooting and ships a rich terminal UI on top of typer + rich.
+keywords:
+  - dns
+  - doh
+  - nrpt
+  - split-dns
+  - networking
+  - cli
+  - python
+  - windows
+  - soft-router
+license: MIT
